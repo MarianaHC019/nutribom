@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/pages/home.page.dart';
 import 'package:flutter_application_1/pages/reset-password.page.dart';
 import 'package:flutter_application_1/pages/signup.page.dart';

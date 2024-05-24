@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/cadastrar_paciente.page.dart';
 import 'package:flutter_application_1/pages/login.page.dart';
 import 'package:flutter_application_1/pages/pesquisar_paciente.page.dart';
-import 'pages/home.page.dart';
+import 'package:flutter_application_1/pages/home.page.dart';
+import 'package:flutter_application_1/pages/pesquisar_alimento.page.dart';
+import 'package:flutter_application_1/pages/cadastrar_alimento.page.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key});
+  const CustomDrawer({Key? key}) : super(key: key);
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -32,10 +34,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.green.shade400,
-              //image: DecorationImage(
-              //fit: BoxFit.fill,
-              //image: AssetImage("assets/images/Foto.png"),
-              //),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,14 +183,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ListTile(
                 onTap: () {
                   _resetExpansionState();
-                  //navegação pesquisar
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PesquisarAlimento()),
+                  );
                 },
                 title: Text("Pesquisar", style: TextStyle(fontSize: 18)),
               ),
               ListTile(
                 onTap: () {
                   _resetExpansionState();
-                  //navegação cadastrar
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CadastrarAlimento()),
+                  );
                 },
                 title: Text("Cadastrar Novo", style: TextStyle(fontSize: 18)),
               ),

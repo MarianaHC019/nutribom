@@ -8,7 +8,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 40, left: 40, right: 40),
+        padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
         color: Colors.white,
         child: ListView(
           children: <Widget>[
@@ -49,7 +49,7 @@ class SignupPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -57,7 +57,7 @@ class SignupPage extends StatelessWidget {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "Nome",
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
                   fontSize: 18,
