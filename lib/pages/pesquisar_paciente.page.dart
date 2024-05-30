@@ -5,12 +5,22 @@ import 'package:flutter_application_1/provider/pacientes.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
-class PesquisarPaciente extends StatelessWidget {
+class PesquisarPaciente extends StatefulWidget {
   const PesquisarPaciente({super.key});
 
   @override
+  _PesquisarPacienteState createState() => _PesquisarPacienteState();
+}
+
+class _PesquisarPacienteState extends State<PesquisarPaciente> {
+  String _searchQuery = '';
+
+  @override
   Widget build(BuildContext context) {
-    final Pacientes pacientes = Provider.of(context);
+    final Pacientes pacientes = Provider.of<Pacientes>(context);
+    final filteredPacientes = pacientes.all.where((paciente) {
+      return paciente.nome.toLowerCase().contains(_searchQuery.toLowerCase());
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -19,9 +29,30 @@ class PesquisarPaciente extends StatelessWidget {
         backgroundColor: Colors.green.shade400,
       ),
       drawer: const CustomDrawer(),
-      body: ListView.builder(
-        itemCount: pacientes.count,
-        itemBuilder: (ctx, i) => PacienteTile(pacientes.byIndex(i)),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Buscar Pacientes',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredPacientes.length,
+              itemBuilder: (ctx, i) => PacienteTile(filteredPacientes[i]),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

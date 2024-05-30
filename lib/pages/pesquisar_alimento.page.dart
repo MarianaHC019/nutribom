@@ -5,12 +5,24 @@ import 'package:flutter_application_1/provider/alimentos.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
-class PesquisarAlimento extends StatelessWidget {
+class PesquisarAlimento extends StatefulWidget {
   const PesquisarAlimento({super.key});
+
+  @override
+  _PesquisarAlimentoState createState() => _PesquisarAlimentoState();
+}
+
+class _PesquisarAlimentoState extends State<PesquisarAlimento> {
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     final Alimentos alimentos = Provider.of(context);
+    final filteredAlimentos = alimentos.all.where((alimento) {
+      return alimento.nomeAlimento
+          .toLowerCase()
+          .contains(_searchQuery.toLowerCase());
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -19,9 +31,30 @@ class PesquisarAlimento extends StatelessWidget {
         backgroundColor: Colors.green.shade400,
       ),
       drawer: const CustomDrawer(),
-      body: ListView.builder(
-        itemCount: alimentos.count,
-        itemBuilder: (ctx, i) => AlimentoTile(alimentos.byIndex(i)),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Buscar Alimentos',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredAlimentos.length,
+              itemBuilder: (ctx, i) => AlimentoTile(filteredAlimentos[i]),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -60,7 +60,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
       ),
       drawer: CustomDrawer(),
       body: Padding(
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(20),
           child: Form(
               key: _form,
               child: Column(
@@ -80,6 +80,9 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                       return null;
                     },
                     onSaved: (value) => _formData['nome'] = value ?? '',
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   TextFormField(
                     initialValue: _formData['dataNascimento'],
@@ -104,6 +107,9 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                     },
                     onSaved: (value) =>
                         _formData['dataNascimento'] = value ?? '',
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   ElevatedButton.icon(
                     onPressed: () async {

@@ -61,7 +61,7 @@ class CadastrarAlimentoState extends State<CadastrarAlimento> {
       ),
       drawer: CustomDrawer(),
       body: Padding(
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(10),
           child: Form(
               key: _form,
               child: Column(
@@ -82,6 +82,9 @@ class CadastrarAlimentoState extends State<CadastrarAlimento> {
                     },
                     onSaved: (value) => _formData['categoria'] = value ?? '',
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   TextFormField(
                     initialValue: _formData['categoria'],
                     decoration: InputDecoration(labelText: 'Categoria'),
@@ -98,6 +101,9 @@ class CadastrarAlimentoState extends State<CadastrarAlimento> {
                     },
                     onSaved: (value) => _formData['categoria'] = value ?? '',
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   TextFormField(
                     initialValue: _formData['tipo'],
                     decoration: InputDecoration(labelText: 'Tipo'),
@@ -113,6 +119,9 @@ class CadastrarAlimentoState extends State<CadastrarAlimento> {
                       return null;
                     },
                     onSaved: (value) => _formData['tipo'] = value ?? '',
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   ElevatedButton.icon(
                     onPressed: () async {

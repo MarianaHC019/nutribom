@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/cadastrar_paciente.page.dart';
+import 'package:flutter_application_1/pages/creditos.page.dart';
 import 'package:flutter_application_1/pages/login.page.dart';
 import 'package:flutter_application_1/pages/pesquisar_paciente.page.dart';
 import 'package:flutter_application_1/pages/home.page.dart';
@@ -207,7 +208,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ListTile(
             onTap: () {
               _resetExpansionState();
-              // navegação créditos
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Creditos()),
+              );
             },
             leading: Icon(
               Icons.description_outlined,
