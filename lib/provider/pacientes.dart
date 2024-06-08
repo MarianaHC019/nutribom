@@ -50,4 +50,8 @@ class Pacientes with ChangeNotifier {
     _items.remove(paciente.id);
     notifyListeners();
   }
+
+  void loadPacientes() {
+    notifyListeners();
+  }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/cadastrar_cardapio.page.dart';
 import 'package:flutter_application_1/pages/cadastrar_paciente.page.dart';
 import 'package:flutter_application_1/pages/creditos.page.dart';
 import 'package:flutter_application_1/pages/login.page.dart';
+import 'package:flutter_application_1/pages/pesquisar_cardapio.page.dart';
 import 'package:flutter_application_1/pages/pesquisar_paciente.page.dart';
 import 'package:flutter_application_1/pages/home.page.dart';
 import 'package:flutter_application_1/pages/pesquisar_alimento.page.dart';
@@ -150,14 +152,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ListTile(
                 onTap: () {
                   _resetExpansionState();
-                  //navegação pesquisar
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PesquisarCardapio()),
+                  );
                 },
                 title: Text("Pesquisar", style: TextStyle(fontSize: 18)),
               ),
               ListTile(
                 onTap: () {
                   _resetExpansionState();
-                  //navegação pesqquisa;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CadastrarCardapio()),
+                  );
                 },
                 title: Text("Cadastrar Novo", style: TextStyle(fontSize: 18)),
               ),

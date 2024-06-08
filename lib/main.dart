@@ -1,9 +1,12 @@
 import 'package:flutter_application_1/pages/cadastrar_alimento.page.dart';
+import 'package:flutter_application_1/pages/cadastrar_cardapio.page.dart';
 import 'package:flutter_application_1/pages/cadastrar_paciente.page.dart';
 import 'package:flutter_application_1/pages/login.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/provider/alimentos.dart';
+import 'package:flutter_application_1/provider/cardapios.dart';
 import 'package:flutter_application_1/provider/pacientes.dart';
+import 'package:flutter_application_1/provider/usuarios.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +22,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => Alimentos(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Cardapios(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Usuarios(),
         )
       ],
       child: MaterialApp(
@@ -38,7 +47,8 @@ class MyApp extends StatelessWidget {
           home: LoginPage(),
           routes: {
             AppRoutes.pacienteform: (_) => CadastrarPaciente(),
-            AppRoutes.alimentoform: (_) => CadastrarAlimento()
+            AppRoutes.alimentoform: (_) => CadastrarAlimento(),
+            AppRoutes.cardapioform: (_) => CadastrarCardapio()
           }),
     );
   }

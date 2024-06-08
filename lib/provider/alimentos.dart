@@ -52,4 +52,8 @@ class Alimentos with ChangeNotifier {
     _items.remove(alimento.id);
     notifyListeners();
   }
+
+  void loadAlimentos() {
+    notifyListeners();
+  }
 }
