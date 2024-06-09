@@ -3,6 +3,7 @@ import 'package:flutter_application_1/models/paciente.dart';
 import 'package:flutter_application_1/provider/pacientes.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 String calculateAge(String? dateOfBirth) {
   if (dateOfBirth == null || dateOfBirth.isEmpty) return '';
@@ -35,12 +36,7 @@ class PacienteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foto =
-        (paciente.fotoPaciente == null || paciente.fotoPaciente!.isEmpty)
-            ? const CircleAvatar(child: Icon(Icons.person))
-            : CircleAvatar(
-                backgroundImage: NetworkImage(paciente.fotoPaciente!),
-              );
+    final foto = _buildAvatar(paciente.fotoPaciente);
 
     return ListTile(
       leading: foto,
@@ -91,5 +87,20 @@ class PacienteTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildAvatar(String? fotoPaciente) {
+    if (fotoPaciente == null || fotoPaciente.isEmpty) {
+      return const CircleAvatar(child: Icon(Icons.person));
+    } else if (fotoPaciente.startsWith('http') ||
+        fotoPaciente.startsWith('https')) {
+      return CircleAvatar(
+        backgroundImage: NetworkImage(fotoPaciente),
+      );
+    } else {
+      return CircleAvatar(
+        backgroundImage: FileImage(File(fotoPaciente)),
+      );
+    }
   }
 }

@@ -48,16 +48,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
                   ),
-                  child: Center(
-                    child: Text(
-                      "Foto",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
+                  child: Center(child: Icon(Icons.person)),
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Nome do usuário",
+                  "Bem Vindo",
                   style: TextStyle(color: Colors.white, fontSize: 26),
                 ),
               ],

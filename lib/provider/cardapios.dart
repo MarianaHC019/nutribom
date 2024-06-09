@@ -19,13 +19,11 @@ class Cardapios with ChangeNotifier {
   }
 
   void put(Cardapio cardapio) {
-    if (cardapio.id != null &&
-        cardapio.id!.trim().isNotEmpty &&
-        _items.containsKey(cardapio.id)) {
+    if (cardapio.id != null && _items.containsKey(cardapio.id)) {
       _items.update(
         cardapio.id!,
-        (_) => Cardapio(
-          id: cardapio.id,
+        (existingCardapio) => Cardapio(
+          id: existingCardapio.id,
           nomePaciente: cardapio.nomePaciente,
           ca1: cardapio.ca1,
           ca2: cardapio.ca2,
@@ -46,7 +44,7 @@ class Cardapios with ChangeNotifier {
       _items.putIfAbsent(
         id,
         () => Cardapio(
-          id: cardapio.id,
+          id: id,
           nomePaciente: cardapio.nomePaciente,
           ca1: cardapio.ca1,
           ca2: cardapio.ca2,
@@ -67,7 +65,7 @@ class Cardapios with ChangeNotifier {
   }
 
   void remove(Cardapio cardapio) {
-    _items.remove(cardapio.id);
+    _items.removeWhere((key, value) => value == cardapio);
     notifyListeners();
   }
 

@@ -54,4 +54,12 @@ class Usuarios with ChangeNotifier {
   void loadPacientes() {
     notifyListeners();
   }
+
+  bool isValidUser(String email, String senha) {
+    final usuario = _items.values.firstWhere(
+      (user) => user.email == email && user.senha == senha,
+      orElse: () => Usuario(id: '', user: '', email: '', senha: ''),
+    );
+    return usuario.id.isNotEmpty;
+  }
 }

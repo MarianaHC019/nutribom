@@ -3,11 +3,34 @@ import 'package:flutter_application_1/models/cardapio.dart';
 import 'package:flutter_application_1/provider/cardapios.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:social_share/social_share.dart';
 
 class CardapioTile extends StatelessWidget {
   final Cardapio cardapio;
 
-  const CardapioTile(this.cardapio, {super.key});
+  const CardapioTile(this.cardapio, {Key? key}) : super(key: key);
+
+  void compartilharCardapio(BuildContext context) {
+    final nomePaciente = cardapio.nomePaciente;
+    final cafeDaManha = '${cardapio.ca1}, ${cardapio.ca2}, ${cardapio.ca3}';
+    final almoco =
+        '${cardapio.al1}, ${cardapio.al2}, ${cardapio.al3}, ${cardapio.al4}, ${cardapio.al5}';
+    final jantar =
+        '${cardapio.ja1}, ${cardapio.ja2}, ${cardapio.ja3}, ${cardapio.ja4}';
+
+    final message = '''
+Confira o cardápio do paciente $nomePaciente:
+Café da Manhã: $cafeDaManha
+Almoço: $almoco
+Jantar: $jantar
+    ''';
+
+    SocialShare.shareOptions(message).then((data) {
+      print('Compartilhamento bem-sucedido!');
+    }).catchError((error) {
+      print('Erro ao compartilhar: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +49,11 @@ class CardapioTile extends StatelessWidget {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  IconButton(
+                    onPressed: () => compartilharCardapio(context),
+                    icon: const Icon(Icons.share),
+                    color: Colors.green.shade900,
+                  ),
                   IconButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(

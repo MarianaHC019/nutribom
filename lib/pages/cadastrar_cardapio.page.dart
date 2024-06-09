@@ -1,11 +1,11 @@
+import 'package:flutter_application_1/models/alimento.dart';
+import 'package:flutter_application_1/models/paciente.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/custom_drawer.dart';
-import 'package:flutter_application_1/models/alimento.dart';
-import 'package:flutter_application_1/models/cardapio.dart';
-import 'package:flutter_application_1/models/paciente.dart';
 import 'package:flutter_application_1/provider/alimentos.dart';
 import 'package:flutter_application_1/provider/cardapios.dart';
 import 'package:flutter_application_1/provider/pacientes.dart';
+import 'package:flutter_application_1/models/cardapio.dart';
 import 'package:provider/provider.dart';
 
 class CadastrarCardapio extends StatefulWidget {
@@ -30,30 +30,37 @@ class _CadastrarCardapioState extends State<CadastrarCardapio> {
   final _form = GlobalKey<FormState>();
   final Map<String, String?> _formData = {};
 
-  void _loadFormData(Cardapio? cardapio) {
-    if (cardapio != null) {
-      _formData['id'] = cardapio.id;
-      _formData['nomePaciente'] = cardapio.nomePaciente;
-      _formData['ca1'] = cardapio.ca1;
-      _formData['ca2'] = cardapio.ca2;
-      _formData['ca3'] = cardapio.ca3;
-      _formData['al1'] = cardapio.al1;
-      _formData['al2'] = cardapio.al2;
-      _formData['al3'] = cardapio.al3;
-      _formData['al4'] = cardapio.al4;
-      _formData['al5'] = cardapio.al5;
-      _formData['ja1'] = cardapio.ja1;
-      _formData['ja2'] = cardapio.ja2;
-      _formData['ja3'] = cardapio.ja3;
-      _formData['ja4'] = cardapio.ja4;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    Provider.of<Pacientes>(context, listen: false).loadPacientes();
-    Provider.of<Alimentos>(context, listen: false).loadAlimentos();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<Pacientes>(context, listen: false).loadPacientes();
+      Provider.of<Alimentos>(context, listen: false).loadAlimentos();
+      _loadInitialData();
+    });
+  }
+
+  Future<void> _loadInitialData() async {
+    final Cardapio? cardapio =
+        ModalRoute.of(context)?.settings.arguments as Cardapio?;
+    if (cardapio != null) {
+      setState(() {
+        _formData['id'] = cardapio.id;
+        _formData['nomePaciente'] = cardapio.nomePaciente;
+        _formData['ca1'] = cardapio.ca1;
+        _formData['ca2'] = cardapio.ca2;
+        _formData['ca3'] = cardapio.ca3;
+        _formData['al1'] = cardapio.al1;
+        _formData['al2'] = cardapio.al2;
+        _formData['al3'] = cardapio.al3;
+        _formData['al4'] = cardapio.al4;
+        _formData['al5'] = cardapio.al5;
+        _formData['ja1'] = cardapio.ja1;
+        _formData['ja2'] = cardapio.ja2;
+        _formData['ja3'] = cardapio.ja3;
+        _formData['ja4'] = cardapio.ja4;
+      });
+    }
   }
 
   @override
@@ -62,10 +69,10 @@ class _CadastrarCardapioState extends State<CadastrarCardapio> {
     final pacientes = pacientesData.all;
     final alimentosData = Provider.of<Alimentos>(context);
     final alimentos = alimentosData.all;
-    final Cardapio? cardapio =
-        ModalRoute.of(context)?.settings.arguments as Cardapio?;
 
-    _loadFormData(cardapio);
+    if (_formData.isEmpty) {
+      _loadInitialData();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -133,6 +140,12 @@ class _CadastrarCardapioState extends State<CadastrarCardapio> {
                     setState(() {
                       nomePaciente = newValue;
                     });
+                  },
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Por favor, selecione um paciente';
+                    }
+                    return null;
                   },
                   items: pacientes.map((Paciente paciente) {
                     return DropdownMenuItem<Paciente>(

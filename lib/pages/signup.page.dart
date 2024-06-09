@@ -10,29 +10,27 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final _form = GlobalKey<FormState>();
-  final Map<String, String?> _formData = {};
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _confirmacaoSenhaController = TextEditingController();
 
-  void _loadFormData(Usuario? usuario) {
-    if (usuario != null) {
-      _formData['id'] = usuario.id;
-      _formData['user'] = usuario.user;
-      _formData['email'] = usuario.email;
-      _formData['senha'] = usuario.senha;
-      _senhaController.text = usuario.senha ?? '';
-      _confirmacaoSenhaController.text = usuario.senha ?? '';
+  void _submitForm(BuildContext context) {
+    final form = _formKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      Provider.of<Usuarios>(context, listen: false).put(Usuario(
+        id: UniqueKey().toString(),
+        email: _emailController.text.trim(),
+        senha: _senhaController.text.trim(),
+        user: '',
+      ));
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final Usuario? usuario =
-        ModalRoute.of(context)?.settings.arguments as Usuario?;
-
-    _loadFormData(usuario);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Cadastrar Paciente", style: TextStyle(fontSize: 22)),
@@ -42,7 +40,7 @@ class _SignupPageState extends State<SignupPage> {
         padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
         color: Colors.white,
         child: Form(
-          key: _form,
+          key: _formKey,
           child: ListView(
             children: <Widget>[
               Text(
@@ -55,37 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: 20,
               ),
               TextFormField(
-                initialValue: _formData['user'],
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Nome",
-                  labelStyle: const TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green.shade900)),
-                ),
-                style: TextStyle(fontSize: 18),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Nome inválido';
-                  }
-
-                  if (value.trim().length < 3) {
-                    return 'Nome muito pequeno. No mínimo 3 letras';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['user'] = value ?? '',
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                initialValue: _formData['email'],
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "E-mail",
@@ -102,10 +70,8 @@ class _SignupPageState extends State<SignupPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Email inválido';
                   }
-
                   return null;
                 },
-                onSaved: (value) => _formData['email'] = value ?? '',
               ),
               SizedBox(
                 height: 5,
@@ -129,14 +95,11 @@ class _SignupPageState extends State<SignupPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Senha inválida';
                   }
-
                   if (value.trim().length < 5) {
                     return 'Senha muito pequena. No mínimo 5 dígitos';
                   }
-
                   return null;
                 },
-                onSaved: (value) => _formData['senha'] = value ?? '',
               ),
               SizedBox(
                 height: 5,
@@ -160,32 +123,16 @@ class _SignupPageState extends State<SignupPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Senha inválida';
                   }
-
                   if (value != _senhaController.text) {
                     return 'Senhas não conferem';
                   }
-
                   return null;
                 },
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  final isValid = _form.currentState?.validate();
-                  if (isValid == true) {
-                    _form.currentState?.save();
-                    Provider.of<Usuarios>(context, listen: false).put(Usuario(
-                      id: _formData['id'] ?? '',
-                      user: _formData['user'] ?? '',
-                      email: _formData['email'] ?? '',
-                      senha: _formData['senha'] ?? '',
-                    ));
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: const Text(
-                  "Cadastrar-se",
-                ),
+                onPressed: () => _submitForm(context),
+                child: const Text("Cadastrar-se"),
               ),
               SizedBox(
                 height: 10,
@@ -204,7 +151,7 @@ class _SignupPageState extends State<SignupPage> {
                     );
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -23,6 +23,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
       _formData['nome'] = paciente.nome;
       _formData['dataNascimento'] = paciente.dataNascimento;
       _formData['fotoPaciente'] = paciente.fotoPaciente;
+      _imagePath = paciente.fotoPaciente;
     }
   }
 
@@ -49,7 +50,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                   id: _formData['id'],
                   nome: _formData['nome'] ?? '',
                   dataNascimento: _formData['dataNascimento'] ?? '',
-                  fotoPaciente: _formData['fotoPaciente'] ?? '',
+                  fotoPaciente: _imagePath,
                 ));
                 Navigator.of(context).pop();
               }
@@ -99,7 +100,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                         return 'Por favor, insira a data de nascimento';
                       }
                       final RegExp regex = RegExp(
-                          r'^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:19|20)?\d{2})$');
+                          r'^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d{2}))$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d{2})?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:19|20)?\d{2})$');
                       if (!regex.hasMatch(value)) {
                         return 'Formato inválido. Use dd/mm/aaaa';
                       }
@@ -118,6 +119,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                       if (pickedFile != null) {
                         setState(() {
                           _imagePath = pickedFile.path;
+                          _formData['fotoPaciente'] = _imagePath;
                         });
                       }
                     },
@@ -135,6 +137,7 @@ class _CadastrarPacienteState extends State<CadastrarPaciente> {
                               onPressed: () {
                                 setState(() {
                                   _imagePath = null;
+                                  _formData['fotoPaciente'] = null;
                                 });
                               },
                               child: Text('Excluir Imagem'),
